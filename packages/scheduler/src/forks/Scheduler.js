@@ -18,7 +18,7 @@ import {
   maxYieldMs,
 } from '../SchedulerFeatureFlags';
 
-import {push, pop, peek} from '../SchedulerMinHeap';
+import { push, pop, peek } from '../SchedulerMinHeap';
 
 // TODO: Use symbols?
 import {
@@ -101,7 +101,7 @@ const isInputPending =
     ? navigator.scheduling.isInputPending.bind(navigator.scheduling)
     : null;
 
-const continuousOptions = {includeContinuous: enableIsInputPendingContinuous};
+const continuousOptions = { includeContinuous: enableIsInputPendingContinuous };
 
 function advanceTimers(currentTime) {
   // Check for tasks that are no longer delayed and add them to the queue.
@@ -193,7 +193,7 @@ function workLoop(hasTimeRemaining, initialTime) {
   while (
     currentTask !== null &&
     !(enableSchedulerDebugging && isSchedulerPaused)
-  ) {
+    ) {
     if (
       currentTask.expirationTime > currentTime &&
       (!hasTimeRemaining || shouldYieldToHost())
@@ -292,7 +292,7 @@ function unstable_next(eventHandler) {
 
 function unstable_wrapCallback(callback) {
   var parentPriorityLevel = currentPriorityLevel;
-  return function() {
+  return function () {
     // This is a fork of runWithPriority, inlined for performance.
     var previousPriorityLevel = currentPriorityLevel;
     currentPriorityLevel = parentPriorityLevel;
@@ -500,7 +500,7 @@ function forceFrameRate(fps) {
     // Using console['error'] to evade Babel and ESLint
     console['error'](
       'forceFrameRate takes a positive int between 0 and 125, ' +
-        'forcing frame rates higher than 125 fps is not supported',
+      'forcing frame rates higher than 125 fps is not supported',
     );
     return;
   }
@@ -623,7 +623,19 @@ export {
 
 export const unstable_Profiling = enableProfiling
   ? {
-      startLoggingProfilingEvents,
-      stopLoggingProfilingEvents,
-    }
+    startLoggingProfilingEvents,
+    stopLoggingProfilingEvents,
+  }
   : null;
+
+export {
+  unstable_flushAllWithoutAsserting,
+  unstable_flushNumberOfYields,
+  unstable_flushExpired,
+  unstable_clearYields,
+  unstable_flushUntilNextPaint,
+  unstable_flushAll,
+  unstable_yieldValue,
+  unstable_advanceTime,
+  unstable_setDisableYieldValue,
+} from './SchedulerMock';
